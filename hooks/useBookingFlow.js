@@ -21,11 +21,15 @@ export const useBookingFlow = () => {
   useEffect(() => {
     const loadInitial = async () => {
       try {
-        const [s, sch, bd] = await Promise.all([
+        const initialData = Promise.all([
           getBusinessSettings(),
           getSchedules(),
           getBlockedDates(getTodayISO(), toISODate(addDays(new Date(), 60))),
         ])
+        const timeout = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Supabase request timed out')), 8000)
+        })
+        const [s, sch, bd] = await Promise.race([initialData, timeout])
         setSettings(s)
         setSchedules(sch)
         setBlockedDates(bd)
