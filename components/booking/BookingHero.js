@@ -1,8 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { formatCurrency, cn } from '@/utils'
-import { SparklesIcon, ClockIcon, MoneyIcon, ScissorsIcon } from '../Icons'
+import { SparklesIcon, ClockIcon, MoneyIcon } from '../Icons'
 
 export default function BookingHero({ settings, onStart }) {
   if (!settings) return null
@@ -26,7 +27,13 @@ export default function BookingHero({ settings, onStart }) {
               transition={{ delay: 0.1, type: 'spring' }}
               className="w-20 h-20 rounded-3xl bg-gradient-to-br from-gold-500/20 to-champagne-500/20 border border-gold-500/30 flex items-center justify-center mb-4 shadow-gold-glow"
             >
-              <ScissorsIcon className="w-10 h-10 text-gold-400" />
+              <Image
+                src="/icon.jpg"
+                alt="Jusse Cristal"
+                width={80}
+                height={80}
+                className="w-full h-full object-cover rounded-3xl"
+              />
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 10 }}

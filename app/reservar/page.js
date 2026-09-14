@@ -11,8 +11,6 @@ import BookingSummary from '@/components/booking/BookingSummary'
 import PaymentSection from '@/components/booking/PaymentSection'
 import ReceiptUploader from '@/components/booking/ReceiptUploader'
 import BookingSuccess from '@/components/booking/BookingSuccess'
-import { SparklesIcon } from '@/components/Icons'
-import Link from 'next/link'
 
 export default function ReservarPage() {
   const flow = useBookingFlow()
@@ -116,19 +114,6 @@ export default function ReservarPage() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-champagne-500/5 rounded-full blur-3xl" />
       </div>
-
-      <header className="relative z-10 border-b border-white/5 backdrop-blur-sm bg-dark-950/40 sticky top-0">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/login" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-gold-500/20 to-champagne-500/20 border border-gold-500/30 flex items-center justify-center group-hover:shadow-gold-glow transition-all">
-              <SparklesIcon className="w-4 h-4 text-gold-400" />
-            </div>
-            <div className="font-serif font-semibold text-white">
-              {flow.settings?.business_name || 'Jusse Cristal'}
-            </div>
-          </Link>
-        </div>
-      </header>
 
       <main className="relative z-10 px-4 py-8 pb-20">
         {flow.step > 1 && flow.step < 7 && (
