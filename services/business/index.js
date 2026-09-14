@@ -50,7 +50,7 @@ export const getSchedules = async () => {
     .select('*')
     .order('day_of_week', { ascending: true })
   if (error) throw error
-  return data || getDefaultSchedules()
+  return data?.length ? data : getDefaultSchedules()
 }
 
 export const getDefaultSchedules = () => {
