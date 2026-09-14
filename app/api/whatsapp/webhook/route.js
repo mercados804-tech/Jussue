@@ -29,7 +29,7 @@ export async function POST(req) {
     const changes = entry?.changes?.[0]
     const messages = changes?.value?.messages
     const contacts = changes?.value?.contacts
-    const businessName = changes?.value?.metadata?.display_name || 'Peluquería Alisados'
+    const businessName = changes?.value?.metadata?.display_name || 'Jusse Cristal'
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json({ ok: true, skipped: true })

@@ -104,7 +104,7 @@ export default function ConfiguracionPage() {
             {({ errors, touched, isSubmitting }) => (
               <Form className="space-y-4">
                 <div>
-                  <label className="label-text">Nombre de la peluquería</label>
+                  <label className="label-text">Nombre del negocio</label>
                   <Field
                     name="business_name"
                     type="text"

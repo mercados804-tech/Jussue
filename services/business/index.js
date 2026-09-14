@@ -7,7 +7,14 @@ export const getBusinessSettings = async () => {
     .limit(1)
     .maybeSingle()
   if (error) throw error
-  return data || getDefaultSettings()
+  if (!data) return getDefaultSettings()
+
+  return {
+    ...data,
+    business_name: data.business_name === 'Peluquería Alisados Premium'
+      ? 'Jusse Cristal'
+      : data.business_name,
+  }
 }
 
 export const updateBusinessSettings = async (id, settings) => {
@@ -22,7 +29,7 @@ export const updateBusinessSettings = async (id, settings) => {
 
 export const getDefaultSettings = () => ({
   id: 1,
-  business_name: 'Peluquería Alisados Premium',
+  business_name: 'Jusse Cristal',
   logo: null,
   description: 'Cabello liso, brillante y saludable.',
   address: '',

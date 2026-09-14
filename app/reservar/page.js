@@ -124,7 +124,7 @@ export default function ReservarPage() {
               <SparklesIcon className="w-4 h-4 text-gold-400" />
             </div>
             <div className="font-serif font-semibold text-white">
-              {flow.settings?.business_name || 'Peluquería'}
+              {flow.settings?.business_name || 'Jusse Cristal'}
             </div>
           </Link>
         </div>
@@ -141,7 +141,7 @@ export default function ReservarPage() {
 
       <footer className="relative z-10 border-t border-white/5 py-6 px-4">
         <div className="max-w-4xl mx-auto text-center text-xs text-gray-600">
-          © {new Date().getFullYear()} {flow.settings?.business_name || 'Peluquería'}. Todos los derechos reservados.
+          © {new Date().getFullYear()} {flow.settings?.business_name || 'Jusse Cristal'}. Todos los derechos reservados.
         </div>
       </footer>
     </div>

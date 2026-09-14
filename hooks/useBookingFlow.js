@@ -33,7 +33,7 @@ export const useBookingFlow = () => {
         console.error(e)
         setSettings({
           id: 1,
-          business_name: 'Peluquería Alisados Premium',
+          business_name: 'Jusse Cristal',
           description: 'Cabello liso, brillante y saludable.',
           service_name: 'Alisado Profesional',
           service_price: 50000,
