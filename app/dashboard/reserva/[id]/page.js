@@ -12,7 +12,7 @@ import {
   ChevronLeft, UserIcon, PhoneIcon, MailIcon, CalendarIcon, ClockIcon,
   MoneyIcon, BankIcon, CheckIcon, XIcon, WhatsAppIcon, FileIcon, SparklesIcon,
 } from '@/components/Icons'
-import { sendTextMessage, buildConfirmationText } from '@/services/whatsapp'
+import { sendTextMessage, buildConfirmationText, getSendConfirmationLink } from '@/services/whatsapp'
 
 const StatusBadge = ({ status }) => (
   <span className={cn(
@@ -122,6 +122,14 @@ export default function ReservationDetail() {
 
   const receipt = reservation.payment_receipts?.[0]
   const isPdf = receipt?.file_url?.toLowerCase().endsWith('.pdf')
+  const confirmationWhatsApp = getSendConfirmationLink(
+    reservation.whatsapp,
+    reservation.service,
+    formatDate(reservation.date),
+    formatTime(reservation.time),
+    formatCurrency(reservation.deposit_amount),
+    formatCurrency(reservation.remaining_amount),
+  )
 
   return (
     <div className="p-4 md:p-6 lg:p-8 max-w-5xl mx-auto">
@@ -349,6 +357,18 @@ export default function ReservationDetail() {
                   )}
                   CANCELAR TURNO
                 </motion.button>
+              )}
+
+              {reservation.status === 'confirmed' && (
+                <a
+                  href={confirmationWhatsApp.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-2xl border border-green-500/30 text-green-400 font-semibold hover:bg-green-500/10 transition-all"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                  ENVIAR CONFIRMACIÓN POR WHATSAPP
+                </a>
               )}
 
               <motion.button

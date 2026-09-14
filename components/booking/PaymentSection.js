@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { formatCurrency } from '@/utils'
 import { ChevronLeft, BankIcon, MoneyIcon, CheckIcon, SparklesIcon, FileIcon } from '../Icons'
-import { createReservation } from '@/services/reservations'
+import { createReservation, findReservation } from '@/services/reservations'
 
 export default function PaymentSection({
   settings, date, time, customer, onPaymentDone, onBack, setReservationId,
@@ -37,6 +37,21 @@ export default function PaymentSection({
       onPaymentDone()
     } catch (err) {
       console.error(err)
+      try {
+        const existingReservation = await findReservation({
+          date,
+          time,
+          email: customer.email.trim(),
+          whatsapp: customer.whatsapp.trim(),
+        })
+        if (existingReservation) {
+          setReservationId(existingReservation.id)
+          onPaymentDone()
+          return
+        }
+      } catch (lookupError) {
+        console.error(lookupError)
+      }
       if (err.message?.includes('duplicate')) {
         setError('Este horario ya fue reservado. Por favor, elegí otro.')
       } else {

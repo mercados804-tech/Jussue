@@ -10,6 +10,19 @@ export const createReservation = async (reservationData) => {
   return data
 }
 
+export const findReservation = async ({ date, time, email, whatsapp }) => {
+  const { data, error } = await supabase
+    .from('reservations')
+    .select('*')
+    .eq('date', date)
+    .eq('time', time)
+    .eq('email', email)
+    .eq('whatsapp', whatsapp)
+    .maybeSingle()
+  if (error) throw error
+  return data
+}
+
 export const getReservations = async (filters = {}) => {
   let query = supabase
     .from('reservations')
