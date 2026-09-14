@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getBusinessSettings, getSchedules, getBlockedDates } from '@/services/business'
+import { getBusinessSettings, getSchedules, getBlockedDates, getDefaultSchedules } from '@/services/business'
 import { getReservedSlots } from '@/services/reservations'
 import { generateTimeSlots, toISODate, addDays, getTodayISO } from '@/utils'
 
@@ -70,7 +70,8 @@ export const useBookingFlow = () => {
       return
     }
     const dow = new Date(date).getDay()
-    const daySchedule = schedules.find((s) => s.day_of_week === dow && s.active)
+    const daySchedule = schedules.find((s) => Number(s.day_of_week) === dow && s.active)
+      || getDefaultSchedules().find((s) => s.day_of_week === dow && s.active)
     const isBlocked = blockedDates.some((b) => b.date === date)
 
     if (!daySchedule || isBlocked) {
@@ -78,24 +79,27 @@ export const useBookingFlow = () => {
       return
     }
 
+    let reserved = []
     try {
-      const reserved = await getReservedSlots(date)
-      const allSlots = generateTimeSlots(
-        daySchedule.start_time,
-        daySchedule.end_time,
-        settings.duration,
-        30
-      )
-      setAvailableSlots(
-        allSlots.map((slot) => ({
-          time: slot,
-          available: !reserved.includes(slot),
-        }))
-      )
+      const reservations = getReservedSlots(date)
+      const timeout = new Promise((resolve) => setTimeout(() => resolve([]), 2000))
+      reserved = await Promise.race([reservations, timeout])
     } catch (e) {
       console.error(e)
-      setAvailableSlots([])
     }
+
+    const allSlots = generateTimeSlots(
+      daySchedule.start_time,
+      daySchedule.end_time,
+      settings.duration,
+      30
+    )
+    setAvailableSlots(
+      allSlots.map((slot) => ({
+        time: slot,
+        available: !reserved.includes(slot),
+      }))
+    )
   }
 
   const selectDate = (date) => {
