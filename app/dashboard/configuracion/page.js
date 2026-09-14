@@ -125,7 +125,7 @@ export default function ConfiguracionPage() {
                   />
                   <ErrorMessage name="whatsapp" component="div" className="error-text" />
                   <div className="text-xs text-gray-600 mt-1.5">
-                    Se usa para el link "Contactar por WhatsApp" del dashboard.
+                    Se usa para el link &quot;Contactar por WhatsApp&quot; del dashboard.
                   </div>
                 </div>
 
