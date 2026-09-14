@@ -75,6 +75,7 @@ export const updateReservationStatus = async (id, status) => {
     .select()
     .single()
   if (error) throw error
+  if (!data) throw new Error('Reservation update was not applied')
   return data
 }
 
