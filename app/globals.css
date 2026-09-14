@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 10, 10;
+  --background-end-rgb: 5, 5, 5;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    )
+    fixed;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+input, textarea, select {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .glass-strong {
+    @apply bg-white/10 backdrop-blur-2xl border border-white/15;
+  }
+
+  .btn-gold {
+    @apply bg-gradient-to-r from-gold-500 to-champagne-500 text-dark-900 font-semibold py-3 px-6 rounded-2xl
+           hover:from-gold-400 hover:to-champagne-400 transition-all duration-300 shadow-gold-glow
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-outline {
+    @apply border border-gold-500/50 text-gold-400 font-medium py-3 px-6 rounded-2xl
+           hover:bg-gold-500/10 hover:border-gold-400 transition-all duration-300
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply text-gray-300 font-medium py-3 px-6 rounded-2xl
+           hover:bg-white/5 transition-all duration-300
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply bg-red-500/10 border border-red-500/30 text-red-400 font-semibold py-3 px-6 rounded-2xl
+           hover:bg-red-500/20 hover:border-red-400/50 transition-all duration-300
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .input-field {
+    @apply w-full bg-dark-800/80 border border-white/10 text-white rounded-xl px-4 py-3.5
+           placeholder:text-gray-500 focus:outline-none focus:border-gold-500/50 focus:ring-2
+           focus:ring-gold-500/20 transition-all duration-200;
+  }
+
+  .input-error {
+    @apply border-red-500/50 focus:border-red-500 focus:ring-red-500/20;
+  }
+
+  .card {
+    @apply glass rounded-3xl p-6 shadow-glass;
+  }
+
+  .card-hover {
+    @apply hover:bg-white/[0.07] hover:border-gold-500/20 transition-all duration-300 cursor-pointer;
+  }
+
+  .label-text {
+    @apply block text-sm font-medium text-gray-300 mb-1.5;
+  }
+
+  .error-text {
+    @apply text-red-400 text-xs mt-1.5 flex items-center gap-1;
+  }
+
+  .status-pending {
+    @apply bg-yellow-500/10 text-yellow-400 border-yellow-500/20;
+  }
+
+  .status-confirmed {
+    @apply bg-emerald-500/10 text-emerald-400 border-emerald-500/20;
+  }
+
+  .status-cancelled {
+    @apply bg-red-500/10 text-red-400 border-red-500/20;
+  }
+
+  .status-completed {
+    @apply bg-blue-500/10 text-blue-400 border-blue-500/20;
+  }
+
+  .section-title {
+    @apply font-serif text-2xl md:text-3xl font-semibold text-white mb-2;
+  }
+
+  .gold-gradient-text {
+    @apply bg-gradient-to-r from-gold-400 via-champagne-400 to-gold-500 bg-clip-text text-transparent;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 182, 76, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 182, 76, 0.35);
+}
