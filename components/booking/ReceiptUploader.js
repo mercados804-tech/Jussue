@@ -69,11 +69,15 @@ export default function ReceiptUploader({ reservationId, onFinish, settings, cus
         transaction_number: transactionNumber?.trim() || null,
         status: 'pending',
       })
-      await createNotif({
-        reservation_id: reservationId,
-        type: 'admin_new',
-        status: 'pending',
-      })
+      try {
+        await createNotif({
+          reservation_id: reservationId,
+          type: 'admin_new',
+          status: 'pending',
+        })
+      } catch (notificationError) {
+        console.error(notificationError)
+      }
       onFinish()
     } catch (err) {
       console.error(err)
