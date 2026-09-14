@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { createServerSupabase } from '@/lib/supabase/client'
+import { createServerClient } from '@supabase/ssr'
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl
@@ -10,18 +9,33 @@ export async function middleware(request) {
 
   if (!isDashboard && !isLogin) return NextResponse.next()
 
-  try {
-    const cookieStore = cookies()
-    const accessToken = cookieStore.get('sb-access-token')?.value
-    const refreshToken = cookieStore.get('sb-refresh-token')?.value
+  const response = NextResponse.next({ request })
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options)
+          })
+        },
+      },
+    },
+  )
 
-    const hasSession = !!accessToken
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    const hasSession = !!user
 
     if (isLogin) {
       if (hasSession) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
-      return NextResponse.next()
+      return response
     }
 
     if (isDashboard) {
@@ -30,7 +44,7 @@ export async function middleware(request) {
         url.searchParams.set('redirect', pathname)
         return NextResponse.redirect(url)
       }
-      return NextResponse.next()
+      return response
     }
   } catch (e) {
     console.error('middleware error:', e.message)
@@ -39,7 +53,7 @@ export async function middleware(request) {
     }
   }
 
-  return NextResponse.next()
+  return response
 }
 
 export const config = {
